@@ -1,0 +1,16 @@
+services:
+  polymarket-smart-trading-bot:
+    image: polymarket-smart-trading-bot:local
+    build:
+      dockerfile: Dockerfile.local
+    env_file:
+      - ./.env.compose
+    ports:
+      - "127.0.0.1:${PORT}:${PORT}"
+    networks:
+      - local-bridge
+
+networks:
+  local-bridge:
+    driver: bridge
+    external: true

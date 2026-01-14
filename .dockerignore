@@ -1,0 +1,14 @@
+.git
+.firebase
+.editorconfig
+/node_modules
+/e2e
+/docs
+/dist
+/templates
+/coverage
+../.gitignore
+*.zip
+*.md
+.vscode
+.idea
