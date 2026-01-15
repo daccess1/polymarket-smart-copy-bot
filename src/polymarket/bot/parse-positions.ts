@@ -38,6 +38,8 @@ export async function parsePositions() {
                 size: accountPosition.size,
                 slug: accountPosition.slug,
                 purchased: false,
+                createdAt: existingPosition?.createdAt ?? new Date(),
+                updatedAt: new Date(),
             }
 
             await getDbClient().getCollection<ParsedPosition>(COLLECTION_NAME_PARSED_POSITION).findOneAndUpdate({
