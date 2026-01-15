@@ -14,6 +14,7 @@ export const COLLECTION_NAME_PARSED_POSITION = "parsedPosition";
  * @param initialValue total money spent by a source account
  * @param avgPrice average price of the position for a source account
  * @param size total shares of the position for a source account
+ * @param slug slug of the event for a position
  * @param purchased true if position is purchased by bot account, false if position is not purchased
  * @param purchasePrice price of a single share of the position for bot account
  * @param purchaseAmount amount of shares of the position for bot account
@@ -26,6 +27,7 @@ export interface ParsedPosition extends WithId<any> {
     initialValue: number;
     avgPrice: number;
     size: number;
+    slug: string;
     purchased: boolean;
     purchasePrice?: number;
     purchaseAmount?: number;
