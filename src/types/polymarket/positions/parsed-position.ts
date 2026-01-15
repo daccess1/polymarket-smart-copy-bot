@@ -28,6 +28,7 @@ export interface ParsedPosition extends WithId<any> {
     avgPrice: number;
     size: number;
     slug: string;
+    title: string;
     purchased: boolean;
     createdAt: Date;
     updatedAt?: Date;

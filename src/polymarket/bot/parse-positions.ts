@@ -37,6 +37,7 @@ export async function parsePositions() {
                 avgPrice: accountPosition.avgPrice,
                 size: accountPosition.size,
                 slug: accountPosition.slug,
+                title: accountPosition.title,
                 purchased: false,
                 createdAt: existingPosition?.createdAt ?? new Date(),
                 updatedAt: new Date(),

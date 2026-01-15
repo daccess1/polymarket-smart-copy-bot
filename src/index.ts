@@ -10,6 +10,7 @@ import type {Market} from "./types/polymarket/market.js";
 import {OrderType, Side} from "@polymarket/clob-client";
 import {fetchAccountPositions} from "./polymarket/positions/fetch-account-positions.js";
 import {parsePositions} from "./polymarket/bot/parse-positions.js";
+import {findFittingPositions} from "./polymarket/bot/find-fitting-positions.js";
 
 (async () => {
     // const fastify: FastifyInstance = await Fastify({
@@ -83,6 +84,7 @@ import {parsePositions} from "./polymarket/bot/parse-positions.js";
     // console.log("Status:", response.status);
 
     await parsePositions();
+    const fittingPositions = await findFittingPositions();
 
     process.exit(0);
 })();
