@@ -76,8 +76,7 @@ export async function createOrder(client: ClobClient, position: ParsedPosition) 
     console.log(buyOrder);
 
     if (buyOrder.success) {
-        await getDbClient().getCollection(COLLECTION_NAME_PARSED_POSITION).updateOne({
-            sourceAccount: position.sourceAccount,
+        await getDbClient().getCollection(COLLECTION_NAME_PARSED_POSITION).updateMany({
             conditionId: position.conditionId,
             outcome: position.outcome,
         }, {
