@@ -13,6 +13,7 @@ import {parsePositions} from "./polymarket/bot/parse-positions.js";
 import {findFittingPositions} from "./polymarket/bot/find-fitting-positions.js";
 import {createOrder} from "./polymarket/bot/create-order.js";
 import moment from "moment";
+import {healthcheck} from "./polymarket/bot/healthcheck.js";
 
 (async () => {
     // const fastify: FastifyInstance = await Fastify({
@@ -41,6 +42,8 @@ import moment from "moment";
     //     process.exit(1);
     // }
 
+    await healthcheck();
+
     const clobClient = await initClient();
 
     while (true) {
@@ -48,7 +51,7 @@ import moment from "moment";
         await new Promise(resolve => setTimeout(resolve, 1000 * 60 * 10));
     }
 
-    process.exit(0);
+    // process.exit(0);
 })();
 
 async function run(clobClient: ClobClient) {

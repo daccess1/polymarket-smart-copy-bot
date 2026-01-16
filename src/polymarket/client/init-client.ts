@@ -12,10 +12,6 @@ export async function initClient() {
 
     const userApiCreds = await credsClient.deriveApiKey();
 
-    console.log("API Key:", userApiCreds.key);
-    console.log("Secret:", userApiCreds.secret);
-    console.log("Passphrase:", userApiCreds.passphrase);
-
     return new ClobClient(
         HOST,
         CHAIN_ID,

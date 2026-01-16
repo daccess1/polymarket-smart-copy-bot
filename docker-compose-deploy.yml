@@ -1,6 +1,6 @@
 services:
   polymarket-smart-trading-bot:
-    image: polymarket-smart-trading-bot:1.0.0
+    image: polymarket-smart-trading-bot:1.0.1
     restart: unless-stopped
     environment:
       - NODE_ENV=${NODE_ENV}
