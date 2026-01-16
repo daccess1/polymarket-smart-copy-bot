@@ -1,5 +1,5 @@
 services:
   polymarket-smart-trading-bot:
-    image: cr.yandex/crpi1oral0gqi9eprfhm/polymarket-bot/polymarket-smart-trading-bot:${VERSION}
+    image: daccess1/polymarket-smart-copy-bot:${VERSION}
     build:
       dockerfile: Dockerfile.serverless

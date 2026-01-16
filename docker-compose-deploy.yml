@@ -1,8 +1,7 @@
 services:
   polymarket-smart-trading-bot:
-    image: daccess1/polymarket-smart-copy-bot:local
-    build:
-      dockerfile: Dockerfile.local
+    image: polymarket-smart-trading-bot:1.0.0
+    restart: unless-stopped
     environment:
       - NODE_ENV=${NODE_ENV}
       - DB_USER=${DB_USER}
@@ -18,11 +17,18 @@ services:
       - MAX_PURCHASE_SHARE_PRICE=${MAX_PURCHASE_SHARE_PRICE}
       - MAX_AMOUNT_TO_SPEND=${MAX_AMOUNT_TO_SPEND}
     ports:
-      - "127.0.0.1:${PORT}:${PORT}"
-    networks:
-      - local-bridge
+      - "${PORT}:${PORT}"
 
-networks:
-  local-bridge:
-    driver: bridge
-    external: true
+  mongo:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
