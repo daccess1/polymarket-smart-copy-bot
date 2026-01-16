@@ -1,6 +1,6 @@
 services:
   polymarket-smart-trading-bot:
-    image: polymarket-smart-trading-bot:1.0.1
+    image: daccess1/polymarket-smart-copy-bot:1.0.2
     restart: unless-stopped
     environment:
       - NODE_ENV=${NODE_ENV}
@@ -28,8 +28,8 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=${DB_USER}
       - MONGO_INITDB_ROOT_PASSWORD=${DB_PASSWORD}
     volumes:
-      - mongo_data:/data/db
+      - pm_mongo_data:/data/db
 
 volumes:
-  mongo_data:
+  pm_mongo_data:
     external: true

@@ -33,7 +33,7 @@ export async function parsePositions() {
 
             const eventEndDatePosInSlug = accountPosition.slug.indexOf("202");
             if (eventEndDatePosInSlug === -1) {
-                console.log("Could not find event date in slug");
+                console.log(`Could not find event date in slug: ${accountPosition.slug}`);
                 continue;
             }
 
