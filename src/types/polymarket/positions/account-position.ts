@@ -9,6 +9,7 @@
  * @param initialValue total money spent by a source account
  * @param avgPrice average price of the position for a source account
  * @param size total shares of the position for a source account
+ * @param endDate date of expiration of the position
  */
 export interface AccountPosition {
     proxyWallet: string;
