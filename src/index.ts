@@ -7,7 +7,7 @@ import {fastifyAutoload} from '@fastify/autoload';
 import {enableAuth} from "./enable-auth.js";
 import {initClient} from "./polymarket/client/init-client.js";
 import type {Market} from "./types/polymarket/market.js";
-import {OrderType, Side} from "@polymarket/clob-client";
+import {type ClobClient, OrderType, Side} from "@polymarket/clob-client";
 import {fetchAccountPositions} from "./polymarket/positions/fetch-account-positions.js";
 import {parsePositions} from "./polymarket/bot/parse-positions.js";
 import {findFittingPositions} from "./polymarket/bot/find-fitting-positions.js";
@@ -41,12 +41,19 @@ import moment from "moment";
     //     process.exit(1);
     // }
 
+    const clobClient = await initClient();
+
+    while (true) {
+        await run(clobClient);
+        await new Promise(resolve => setTimeout(resolve, 1000 * 60 * 10));
+    }
+
+    process.exit(0);
+})();
+
+async function run(clobClient: ClobClient) {
     await parsePositions();
     const fittingPositions = await findFittingPositions();
-
-    console.log(fittingPositions);
-
-    const clobClient = await initClient();
 
     for (const fittingPosition of fittingPositions) {
         try {
@@ -57,8 +64,4 @@ import moment from "moment";
             console.error(ex);
         }
     }
-
-    console.log(moment().isAfter("2026-01-16T23:59:59"))
-
-    process.exit(0);
-})();
+}
