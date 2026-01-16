@@ -32,3 +32,4 @@ services:
 
 volumes:
   mongo_data:
+    external: true
