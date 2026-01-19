@@ -6,7 +6,7 @@ import type {WithId} from "../../../common/db.js";
 export const COLLECTION_NAME_PARSED_POSITION = "parsedPosition";
 
 /**
- * Position for bot
+ * Position found during parsing from Polymarket API
  *
  * @param sourceAccount source account address
  * @param conditionId condition id (used to search market api)
@@ -17,12 +17,8 @@ export const COLLECTION_NAME_PARSED_POSITION = "parsedPosition";
  * @param slug slug of the event for a position
  * @param title title of the event for a position
  * @param endDate some weird date that do not correspond with actual event date, idk what that means
- * @param eventEndDate event end date
  * @param existing true if position is found during parsing
  * @param purchased true if position is purchased by bot account, false if position is not purchased
- * @param purchasePrice price of a single share of the position for bot account
- * @param purchaseAmount amount of shares of the position for bot account
- * @param purchasedAt date of purchase of the position for bot account
  */
 export interface ParsedPosition extends WithId<any> {
     sourceAccount: string;
@@ -34,12 +30,8 @@ export interface ParsedPosition extends WithId<any> {
     slug: string;
     title: string;
     endDate: string;
-    eventEndDate: string;
     purchased: boolean;
     existing: boolean;
     createdAt: Date;
     updatedAt?: Date;
-    purchasePrice?: number;
-    purchaseAmount?: number;
-    purchasedAt?: Date;
 }

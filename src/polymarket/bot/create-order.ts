@@ -1,16 +1,38 @@
 import {type ClobClient, type OrderResponse, OrderType, Side} from "@polymarket/clob-client";
-import {
-    COLLECTION_NAME_PARSED_POSITION,
-    type ParsedPosition
-} from "../../types/polymarket/positions/parsed-position.js";
+import {type ParsedPosition} from "../../types/polymarket/positions/parsed-position.js";
 import type {Market} from "../../types/polymarket/market.js";
 import {getDbClient} from "../../common/db.js";
+import {
+    COLLECTION_NAME_PURCHASED_POSITION,
+    type PurchasedPosition
+} from "../../types/polymarket/positions/purchased-position.js";
 
 export async function createOrder(client: ClobClient, position: ParsedPosition) {
+    console.log("===============================================================");
+    const isPositionPurchased = await getDbClient().checkIfExists(COLLECTION_NAME_PURCHASED_POSITION, {
+        conditionId: position.conditionId,
+        outcome: position.outcome,
+    });
+
+    if (isPositionPurchased) {
+        console.log(`Position ${position.title} already purchased. Skipping.`);
+        return;
+    }
+
     // Get market info first
     const market = await client.getMarket(position.conditionId) as Market;
 
-    // console.log(market);
+    if (!market.accepting_orders) {
+        console.log(`Orders are not accepting for position ${position.title}. Skipping.`);
+        return;
+    }
+
+    if (market.closed) {
+        console.log(`Market is closed for position ${position.title}. Skipping.`);
+        return;
+    }
+
+    console.log(market);
 
     const tokens = market.tokens;
 
@@ -76,13 +98,15 @@ export async function createOrder(client: ClobClient, position: ParsedPosition) 
     console.log(buyOrder);
 
     if (buyOrder.success) {
-        await getDbClient().getCollection(COLLECTION_NAME_PARSED_POSITION).updateMany({
-            conditionId: position.conditionId,
-            outcome: position.outcome,
-        }, {
-            $set: {
-                purchased: true,
-            }
-        });
+        const purchasedPosition: PurchasedPosition = {
+            ...position,
+            purchased: true,
+            eventEndDate: market.end_date_iso,
+            purchasePrice: buyToken.price,
+            purchaseAmount: orderSharesAmount,
+            purchasedAt: new Date()
+        }
+
+        await getDbClient().getCollection<PurchasedPosition>(COLLECTION_NAME_PURCHASED_POSITION).insertOne(purchasedPosition);
     }
 }

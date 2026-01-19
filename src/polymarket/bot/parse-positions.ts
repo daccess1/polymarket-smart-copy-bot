@@ -34,15 +34,14 @@ export async function parsePositions() {
             const eventEndDatePosInSlug = accountPosition.slug.indexOf("202");
             if (eventEndDatePosInSlug === -1) {
                 console.log(`Could not find event date in slug: ${accountPosition.slug}`);
-                continue;
-            }
+            } else {
+                const eventEndDate = accountPosition.slug.substring(eventEndDatePosInSlug, eventEndDatePosInSlug + 10);
 
-            const eventEndDate = accountPosition.slug.substring(eventEndDatePosInSlug, eventEndDatePosInSlug + 10);
-
-            // Skip position if event is over
-            if (moment().isAfter(moment(`${eventEndDate}T23:59:59`))) {
-                // console.log(`Event is over: ${accountPosition.endDate}`);
-                continue;
+                // Skip position if event is over
+                if (moment().isAfter(moment(`${eventEndDate}T23:59:59`))) {
+                    console.log(`Event is over (date found in slug): ${eventEndDate}`);
+                    continue;
+                }
             }
 
             const existingPosition = await getDbClient().getCollection<ParsedPosition>(COLLECTION_NAME_PARSED_POSITION).findOne({
@@ -61,7 +60,6 @@ export async function parsePositions() {
                 slug: accountPosition.slug,
                 title: accountPosition.title,
                 endDate: accountPosition.endDate,
-                eventEndDate: eventEndDate,
                 purchased: existingPosition?.purchased ?? false,
                 existing: true,
                 createdAt: existingPosition?.createdAt ?? new Date(),
