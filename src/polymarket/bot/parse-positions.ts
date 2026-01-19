@@ -33,13 +33,13 @@ export async function parsePositions() {
 
             const eventEndDatePosInSlug = accountPosition.slug.indexOf("202");
             if (eventEndDatePosInSlug === -1) {
-                console.log(`Could not find event date in slug: ${accountPosition.slug}`);
+                // console.log(`Could not find event date in slug: ${accountPosition.slug}`);
             } else {
                 const eventEndDate = accountPosition.slug.substring(eventEndDatePosInSlug, eventEndDatePosInSlug + 10);
 
                 // Skip position if event is over
                 if (moment().isAfter(moment(`${eventEndDate}T23:59:59`))) {
-                    console.log(`Event is over (date found in slug): ${eventEndDate}`);
+                    // console.log(`Event is over (date found in slug): ${eventEndDate}`);
                     continue;
                 }
             }
