@@ -1,6 +1,6 @@
 services:
   polymarket-smart-trading-bot:
-    image: daccess1/polymarket-smart-copy-bot:1.1.1
+    image: daccess1/polymarket-smart-copy-bot:1.2.0
     restart: unless-stopped
     environment:
       - NODE_ENV=${NODE_ENV}
