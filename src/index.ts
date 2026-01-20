@@ -44,11 +44,13 @@ import {healthcheck} from "./polymarket/bot/healthcheck.js";
 
     await healthcheck();
 
+    const sleepTime = parseFloat(process.env.SLEEP_TIME_MIN ?? "10");
+
     const clobClient = await initClient();
 
     while (true) {
         await run(clobClient);
-        await new Promise(resolve => setTimeout(resolve, 1000 * 60 * 10));
+        await new Promise(resolve => setTimeout(resolve, 1000 * 60 * sleepTime));
     }
 
     // process.exit(0);
